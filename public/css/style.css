@@ -1,3 +1,12 @@
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.container{
+    flex: 1;
+}
+
 .navbar{
     height: 5rem;
     background-color: white;
@@ -18,7 +27,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    height: 8rem;
+    height: 6rem;
     background-color: #ebebeb;
     align-items: space-evenly;
     text-align: center;
@@ -73,4 +82,19 @@
 .card-img-overlay:hover{
     opacity: 0.2;
     background-color: white;
+}
+
+/* New Listing */
+.add-btn{
+    background-color: #fe424d !important;
+    border: none !important;
+}
+
+/* Show Page */
+.show-img{
+    height: 40vh;
+}
+
+.btns{
+    display: flex;
 }
