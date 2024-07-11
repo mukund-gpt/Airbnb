@@ -11,7 +11,8 @@ const ExpressError = require("./utils/ExpressError.js")
 const { listingSchema, reviewSchema } = require("./Schema.js")
 const app = express()
 
-const MONGO_URL = 'mongodb://127.0.0.1:27017/airbnb';
+// const MONGO_URL = 'mongodb://127.0.0.1:27017/airbnb';
+const MONGO_URL = 'mongodb+srv://abhishek:abhishek@atlascluster.tx78vye.mongodb.net/airbnb';
 
 main().then(() => {
     console.log("Connected Successfully")
