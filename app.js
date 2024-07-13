@@ -10,8 +10,11 @@ const app = express()
 const listings = require("./routes/listing.js")
 const reviews = require("./routes/review.js")
 
-// const MONGO_URL = 'mongodb://127.0.0.1:27017/airbnb';
-const MONGO_URL = 'mongodb+srv://abhishek:abhishek@atlascluster.tx78vye.mongodb.net/airbnb';
+const session = require("express-session")
+const flash = require("connect-flash")
+
+const MONGO_URL = 'mongodb://127.0.0.1:27017/airbnb';
+// const MONGO_URL = 'mongodb+srv://abhishek:abhishek@atlascluster.tx78vye.mongodb.net/airbnb';
 
 main().then(() => {
     console.log("Connected Successfully")
@@ -33,8 +36,29 @@ app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride("_method"))
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")))
+
+const sessionOptions = {
+    secret: "mysecretcode",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 3,
+        maxAge: 1000 * 60 * 60 * 24 * 3,
+        httpOnly: true
+    }
+}
+
 app.get("/", (req, res) => {
     res.send("Hello world")
+})
+
+app.use(session(sessionOptions))
+app.use(flash())
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success")
+    res.locals.error = req.flash("error")
+    next()
 })
 
 app.use("/listings", listings)
