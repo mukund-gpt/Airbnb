@@ -10,8 +10,9 @@
       <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="Image">
 
       <div class="card-body">
+        <p class="card-text m-2"> Owned by <i><%= listing.owner.username %></i></p>
+        <p class="card-text"><%= listing.description %></p>
         <p class="card-text">
-          <%= listing.description %> <br><br>
             &#8377;<%= listing.price.toLocaleString("en-IN") %>/night <br>
               <%= listing.location %>,
                 <%= listing.country %>
@@ -31,11 +32,11 @@
       <hr>
       <h3>Leave A review</h3>
       <form action="/listings/<%= listing.id%>/reviews" method="post" novalidate class="needs-validation">
-        <div class="mb-3 mt-3">
+        <div class="mb-3 mt-3 col-6">
           <label for="rating" class="form-label">Rating</label>
           <input type="range" name="review[rating]" id="rating" min="1" max="5" class="form-range">
         </div>
-        <div>
+        <div class="col-10">
           <label for="comment" class="form-label">Comments</label>
           <textarea name="review[comment]" id="comment" cols="20" rows="2" class="form-control" required></textarea>
           <div class="invalid-feedback">Plz, Add a Review</div>
