@@ -98,3 +98,8 @@ body{
 .btns{
     display: flex;
 }
+
+/* MAP */
+#map {
+    height: 200px;
+}
