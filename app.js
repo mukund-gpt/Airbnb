@@ -16,13 +16,14 @@ const reviewRouter = require("./routes/review.js")
 const userRouter = require("./routes/user.js")
 
 const session = require("express-session")
+const MongoStore = require('connect-mongo')
 const flash = require("connect-flash")
 const passport = require("passport")
 const LocalStrategy = require("passport-local")
 const User = require("./models/user")
 
-const MONGO_URL = 'mongodb://127.0.0.1:27017/airbnb';
-// const MONGO_URL = 'mongodb+srv://abhishek:abhishek@atlascluster.tx78vye.mongodb.net/airbnb';
+// const MONGO_URL = 'mongodb://127.0.0.1:27017/airbnb';
+const MONGO_URL = process.env.ATLAS_URL
 
 main().then(() => {
     console.log("Connected Successfully")
@@ -45,8 +46,21 @@ app.use(methodOverride("_method"))
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")))
 
+const store=MongoStore.create({
+    mongoUrl:MONGO_URL,
+    crypto:{
+        secret: process.env.SECRET,
+    },
+    touchAfter:86400
+})
+
+store.on("error",()=>{
+    console.log("Error in Mongo Session Store")
+})
+
 const sessionOptions = {
-    secret: "mysecretcode",
+    store,
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
