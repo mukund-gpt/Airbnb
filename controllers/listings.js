@@ -1,5 +1,7 @@
 const { cloudinary } = require("../cloudConfig");
 const Listing = require("../models/listing");
+const maptilerClient = require("@maptiler/client");
+maptilerClient.config.apiKey = "wvyUBKWgBpFlB7aLCs7B";
 
 module.exports.index = async (req, res) => {
   let allListings = await Listing.find({}).sort({ _id: -1 });
@@ -28,11 +30,20 @@ module.exports.showListing = async (req, res) => {
 };
 
 module.exports.createListing = async (req, res) => {
+  const result = await maptilerClient.geocoding.forward(
+    req.body.listing.location,
+    {
+      limit: 1,
+    }
+  );
+
   let url = req.file.path;
   let filename = req.file.filename;
   let newlisting = new Listing(req.body.listing);
   newlisting.owner = req.user._id;
   newlisting.image = { url, filename };
+  newlisting.geometry = result.features[0].geometry;
+
   await newlisting.save();
   req.flash("success", "New Listing Created!");
   res.redirect("/listings");
