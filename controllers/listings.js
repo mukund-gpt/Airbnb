@@ -64,6 +64,14 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateListing = async (req, res) => {
   let { id } = req.params;
+  //update coordinates
+  const result = await maptilerClient.geocoding.forward(
+    req.body.listing.location,
+    {
+      limit: 1,
+    }
+  );
+  req.body.listing.geometry = result.features[0].geometry;
   let listing = await Listing.findByIdAndUpdate(id, req.body.listing);
 
   if (typeof req.file !== "undefined") {

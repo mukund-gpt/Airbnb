@@ -21,6 +21,8 @@ const flash = require("connect-flash")
 const passport = require("passport")
 const LocalStrategy = require("passport-local")
 const User = require("./models/user")
+const wrapAsync = require("./utils/wrapAsync.js")
+const listingControllers = require("./controllers/listings.js");
 
 // const MONGO_URL = 'mongodb://127.0.0.1:27017/airbnb';
 const MONGO_URL = process.env.ATLAS_URL
@@ -88,17 +90,7 @@ app.use((req, res, next) => {
     next()
 })
 
-app.get("/demouser", async (req, res) => {
-    let fakeUser = new User({
-        email: "123@gmail.com",
-        username: "qwertyqa"
-    })
-    let registerUser = await User.register(fakeUser, "helloworld")
-    res.send(registerUser)
-})
-
-
-
+app.get("/",wrapAsync(listingControllers.index))
 app.use("/listings", listingRouter)
 app.use("/listings/:id/reviews", reviewRouter)
 app.use("/",userRouter)
