@@ -117,7 +117,7 @@ body {
 .filters {
     overflow-x: hidden;
     display: flex;
-    justify-content: center;
+    white-space: nowrap;
     align-items: center;
     cursor: grab;
 }
@@ -138,7 +138,7 @@ body {
 }
 
 .tax-toggle {
-    border: 1px solid ;
+    border: 1px solid;
     border-radius: 1rem;
     height: 3.5rem;
     padding: 1rem 0.5rem;
@@ -148,4 +148,14 @@ body {
     background-color: #fe424d;
     color: white;
     font-style: bold;
+}
+
+@media(max-width:768px) {
+    .filter {
+        margin: 0.7rem;
+    }
+
+    .tax-toggle {
+        margin-left: 2rem;
+    }
 }
